@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 	
-	ArrayList<User> users = new ArrayList<User>();
-	users.add(new User("James", "james@james","123", 1));
+	List<User> users = new ArrayList<User>();
+	
+	HelloController(){
+		users.add(new User("James", "james@james","123", 1));
+		users.add(new User("James", "james@james","123", 1));		
+		users.add(new User("James", "james@james","123", 1));	
+	}
 	
 	
 	@GetMapping("/")
@@ -21,20 +26,20 @@ public class HelloController {
 	}
 		
 	@GetMapping("/user")
-	public String[] getUsers() {
-		String [] users = {"James", "Matheus", "Gabriel"};
+	public List<User> getUsers() {
+		
 		return users;
 	}
 	
 	@GetMapping("/userById")
-	public String getUserByIndex(@RequestParam(value = "id") int index) {
-		String [] users = {"James", "Matheus", "Gabriel"};
-		return users[index];
+	public User getUserByIndex(@RequestParam(value = "id") int index) {
+		return users.get(index);
 	}
 	
 	@PostMapping("/user")
 	public User createUser(User newUser) {
-		newUser.setId(this.users.length);
+		newUser.setId(this.users.size());
+		users.add(newUser);
 		return newUser;
 	}
 }
